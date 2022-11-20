@@ -16,4 +16,6 @@ class QueryBuilderCategory implements QueryBuilder
     public function getCategories(){
         return Category::select('id', 'name', 'updated_at')->get();
     }
+
+
 }
