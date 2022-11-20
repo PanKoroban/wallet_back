@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Spending;
+use App\Queries\QueryBilderSpendings;
+use App\Queries\QueryBuilderCategory;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function index(QueryBuilderCategory $categories, QueryBilderSpendings $spanding)
     {
-        $categories = app(Category::class)->getCategories();
-        $spending = app(Spending::class)->getSpending();
         return view('welcome', [
-                'categories' => $categories,
-                'spending' => $spending,
+                'categories' => $categories->getCategories(),
+                'spending' => $spanding->getSpendings()
             ]
         );
     }
