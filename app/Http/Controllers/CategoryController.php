@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Queries\QueryBuilderCategory;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return 3;
+
+        if ($request->accepts(['text/html', 'application/json'])) {
+            $validated = $request->only(['name']);
+       }
+        $category = new Category($validated);
+        $category->save();
     }
 
     /**

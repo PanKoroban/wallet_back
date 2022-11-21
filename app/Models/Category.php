@@ -14,4 +14,7 @@ class Category extends Model
      * Название Таблицы и Столбцов
      */
     protected $table = 'categories';
+    protected $fillable =[
+        'name'
+    ];
 }
