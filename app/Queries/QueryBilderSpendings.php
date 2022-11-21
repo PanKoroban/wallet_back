@@ -8,7 +8,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 class QueryBilderSpendings implements QueryBuilder
 {
 
-    public function getBilder(): Builder
+    public function getBuilder(): Builder
     {
         return Spending::query(); //Возвращает модель расходов
     }
