@@ -8,12 +8,12 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 class QueryBuilderCategory implements QueryBuilder
 {
 
-    public function getBilder(): Builder
+    public function getBuilder(): Builder
     {
         return Category::query(); // возвращает модель Категорий
     }
 
     public function getCategories(){
-        return Category::select('id', 'name', 'updated_at')->get();
+        return Category::select('id', 'name', 'created_at')->get();
     }
 }
