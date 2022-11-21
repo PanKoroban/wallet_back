@@ -6,9 +6,4 @@ Developer:
 -     Ackap Maemgenov
 
 ## Для информации
-- Сначала создай БД, у себя на локальном сервере. 
-- Сделай миграцию таблицы <br> --- php artisan migrate 
-- Сделай заполнение таблицы Faker | Seeder <br>  --- php artisan db:seed
-
-Посл этих команд должны отобразиться данные с БД на начальной странице!
-
+- Инструкция по установке: https://docs.google.com/document/d/1ygq68Iru_KJoj1iviB5y81O6Dhi7iBElqWlSr2rl3dU/edit?usp=sharing
