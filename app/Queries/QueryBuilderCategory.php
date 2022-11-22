@@ -14,7 +14,7 @@ class QueryBuilderCategory implements QueryBuilder
     }
 
     public function getCategories(){
-        return Category::select('id', 'name', 'created_at')->get();
+        return Category::select('id', 'name', 'img_name')->get();
     }
 
 

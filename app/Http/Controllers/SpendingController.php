@@ -14,7 +14,7 @@ class SpendingController extends Controller
      */
     public function index(QueryBilderSpendings $spending)
     {
-        return $spending->getSpendings();
+        return $spending->getSpendingsWithCategoryName();
     }
 
     /**
