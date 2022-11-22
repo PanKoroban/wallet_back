@@ -16,4 +16,13 @@ class QueryBilderSpendings implements QueryBuilder
     public function getSpendings(){
         return Spending::select('id', 'category_id', 'sum', 'created_at')->get();
     }
+
+    public function getSpendingsWithCategoryName(){
+//        return Spending::select('id', 'category_id', 'sum', 'created_at')->get();
+          return Spending::join('categories', 'categories.id', '=' , 'spending.category_id')
+              ->select(['spending.sum', 'categories.name', 'spending.created_at', 'categories.img_name'])
+              ->get();
+
+    }
+
 }
