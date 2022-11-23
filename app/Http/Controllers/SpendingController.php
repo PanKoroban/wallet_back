@@ -37,7 +37,7 @@ class SpendingController extends Controller
         }
         $spending = new Spending($validated);
         if ($spending->save()) {
-            return response()->json('success');
+            return response()->json($validated);
         } else {
             return response()->json('error', 400);
         }
@@ -71,7 +71,7 @@ class SpendingController extends Controller
         }
         $spending = $spending->fill($validated);
         if ($spending->save()) {
-            return response()->json('success');
+            return response()->json($validated);
         } else {
             return response()->json('error', 400);
         }

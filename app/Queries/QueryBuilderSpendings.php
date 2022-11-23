@@ -25,7 +25,7 @@ class QueryBuilderSpendings implements QueryBuilder
             return Spending::select('id', 'category_id', 'sum', 'created_at')->get();
          */
         return Spending::query()->join('categories', 'categories.id', '=', 'spending.category_id')
-            ->select(['spending.sum', 'categories.name as CategoryName', 'categories.img_name as CategoryImgName', 'spending.created_at', ])
+            ->select(['spending.sum', 'categories.name as CategoryName', 'categories.img_name as CategoryImgName', 'spending.created_at', 'categories.id as CategoryId' ])
             ->get();
 
     }
