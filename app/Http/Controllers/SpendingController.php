@@ -33,11 +33,11 @@ class SpendingController extends Controller
     public function store(Request $request)
     {
         if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['category_id', 'sum']);
+            $validated = $request->only(['category_id', 'sum', 'created_at']);
         }
         $spending = new Spending($validated);
         if ($spending->save()) {
-            return response()->json('success');
+            return response()->json($validated);
         } else {
             return response()->json('error', 400);
         }
@@ -67,11 +67,11 @@ class SpendingController extends Controller
     public function update(Request $request, Spending $spending): JsonResponse
     {
         if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['category_id', 'sum']);
+            $validated = $request->only(['category_id', 'sum', 'updated_at']);
         }
         $spending = $spending->fill($validated);
         if ($spending->save()) {
-            return response()->json('success');
+            return response()->json($validated);
         } else {
             return response()->json('error', 400);
         }
