@@ -32,7 +32,7 @@ class CategoryController extends Controller
        }
         $category = new Category($validated);
         if ($category->save()){
-            return response()->json('ok');
+            return response()->json($validated);
         } else {
             return response()->json('error', 400);
         }
@@ -65,7 +65,7 @@ class CategoryController extends Controller
 
         $category = $category->fill($validated);
         if($category->save()){
-            return response()->json('ok');;
+            return response()->json($validated);;
         }
 
         return response()->json('error', 400);;

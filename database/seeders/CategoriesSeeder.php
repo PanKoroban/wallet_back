@@ -29,7 +29,8 @@ class CategoriesSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $date[] = [
                 'name' => $faker->jobTitle(),
-                'created_at' => now('Europe/Moscow')
+                'created_at' => now('Europe/Moscow'),
+                'img_name' => 'house.svg'
             ];
         }
         return $date;
