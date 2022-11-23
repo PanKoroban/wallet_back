@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Миграция создает таблицу Трат
+     * Run the migrations.
+     *
      * @return void
      */
     public function up()
     {
-        Schema::create('spending', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->constrained('categories');
-            $table->double('sum', 8, 2);
-            $table->timestamps();
+        Schema::table('categories', function (Blueprint $table) {
+            $table->string('img_name')
+            ->after('name')
+            ->nullable();
         });
     }
 
@@ -27,6 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('spending');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('img_name');
+        });
     }
 };
