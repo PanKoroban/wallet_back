@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories');
             $table->double('sum', 8, 2);
-            $table->dateTime('created_at');
+            $table->timestamps();
         });
     }
 
