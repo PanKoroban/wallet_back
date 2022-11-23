@@ -33,7 +33,7 @@ class SpendingController extends Controller
     public function store(Request $request)
     {
         if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['category_id', 'sum']);
+            $validated = $request->only(['category_id', 'sum', 'created_at']);
         }
         $spending = new Spending($validated);
         if ($spending->save()) {
@@ -67,7 +67,7 @@ class SpendingController extends Controller
     public function update(Request $request, Spending $spending): JsonResponse
     {
         if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['category_id', 'sum']);
+            $validated = $request->only(['category_id', 'sum', 'updated_at']);
         }
         $spending = $spending->fill($validated);
         if ($spending->save()) {
