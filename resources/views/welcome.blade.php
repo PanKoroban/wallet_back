@@ -15,7 +15,9 @@
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Категория</th>
-        <th scope="col">Дата добавления</th>
+        <th scope="col">img_name</th>
+        <th scope="col">Дата_Добавления</th>
+        <th scope="col">Дата_Обновления</th>
     </tr>
     </thead>
     <tbody>
@@ -25,7 +27,9 @@
         <tr>
             <td>{{ $category->id }}</td>
             <td>{{ $category->name }}</td>
+            <td>{{ $category->img_name }}</td>
             <td>{{ $category->created_at }}</td>
+            <td>{{ $category->updated_at }}</td>
         </tr>
 
     @empty
@@ -50,9 +54,10 @@
     <thead>
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">ID Категорий</th>
-        <th scope="col">Сумма Траты</th>
-        <th scope="col">Дата добавления</th>
+        <th scope="col">ID_Категорий</th>
+        <th scope="col">Сумма_Траты</th>
+        <th scope="col">Дата_Добавления</th>
+        <th scope="col">Дата_Обновления</th>
     </tr>
     </thead>
     <tbody>
@@ -64,6 +69,7 @@
             <td>{{ $spend->category_id }}</td>
             <td>{{ $spend->sum }}</td>
             <td>{{ $spend->created_at }}</td>
+            <td>{{ $spend->updated_at }}</td>
         </tr>
 
     @endforeach
