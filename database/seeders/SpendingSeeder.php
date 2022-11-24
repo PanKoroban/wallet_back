@@ -29,7 +29,7 @@ class SpendingSeeder extends Seeder
 
         for ($i = 0; $i < 20; $i++) {
             $date[] = [
-                'category_id' => rand(1, 10),
+                'category_id' => rand(1, 5),
                 'sum'=> $faker->biasedNumberBetween(100, 5000),
                 'created_at' => now('Europe/Moscow')
             ];

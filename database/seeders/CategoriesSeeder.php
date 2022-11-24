@@ -26,13 +26,33 @@ class CategoriesSeeder extends Seeder
         $faker = Factory::create('ru_RU');
         $date = [];
 
-        for ($i = 0; $i < 10; $i++) {
-            $date[] = [
-                'name' => $faker->jobTitle(),
+
+        return $date[] = [
+            [
+                'name' => 'Одежда',
+                'img_name' => 'exp-1.png',
                 'created_at' => now('Europe/Moscow'),
-                'img_name' => 'house.svg'
-            ];
-        }
-        return $date;
+            ],
+            [
+                'name' => 'ЖКХ, связь, интернет',
+                'img_name' => 'exp-2.png',
+                'created_at' => now('Europe/Moscow'),
+            ],
+            [
+                'name' => 'Пополнение',
+                'img_name' => 'exp-3.png',
+                'created_at' => now('Europe/Moscow'),
+            ],
+            [
+                'name' => 'Образование',
+                'img_name' => 'exp-4.png',
+                'created_at' => now('Europe/Moscow'),
+            ],
+            [
+                'name' => 'Медицина',
+                'img_name' => 'exp-5.png',
+                'created_at' => now('Europe/Moscow'),
+            ],
+        ];
     }
 }
