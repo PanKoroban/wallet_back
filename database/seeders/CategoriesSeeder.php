@@ -23,9 +23,8 @@ class CategoriesSeeder extends Seeder
      */
     private function getDate(): array
     {
-        $faker = Factory::create('ru_RU');
-        $date = [];
 
+        $date = [];
 
         return $date[] = [
             [
