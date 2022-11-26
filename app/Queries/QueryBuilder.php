@@ -6,5 +6,5 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 interface QueryBuilder
 {
-    public function getBuilder():Builder;
+    public function __construct();
 }
