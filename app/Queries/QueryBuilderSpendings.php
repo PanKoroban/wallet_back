@@ -1,24 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Queries;
 
 use App\Models\Spending;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-class QueryBuilderSpendings implements QueryBuilder
+final class QueryBuilderSpendings implements QueryBuilder
 {
+    private Builder $model;
 
-    public function getBuilder(): Builder
+    public function __construct()
     {
-        return Spending::query(); //Возвращает модель расходов
+        $this->model = Spending::query();
     }
 
-    public function getSpending(): Collection|array
+    public function getSpending(): Collection
     {
-        return Spending::query()->select('id', 'name', 'category_id', 'sum', 'created_at')->get();
+        return $this->model
+            ->with('category')
+            ->get();
     }
 
+    public function create(array $date): Spending|bool
+    {
+        return Spending::create($date);
+    }
+
+    public function update(Spending $spending, array $date): Spending|bool
+    {
+        $spending->fill($date)->save();
+        return $spending->fill($date);
+    }
+
+    /**
+     * Можем подключить если понадобиться в Контроллере вместо -> getSpending
+     */
     public function getSpendingWithCategoryName(): Collection|array
     {
         return Spending::query()->join('categories', 'categories.id', '=', 'spending.category_id')
@@ -30,7 +49,6 @@ class QueryBuilderSpendings implements QueryBuilder
                 'categories.img_name as CategoryImgName',
                 'spending.created_at'])
             ->get();
-
     }
 
 }

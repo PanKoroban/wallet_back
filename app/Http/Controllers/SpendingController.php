@@ -12,11 +12,11 @@ class SpendingController extends Controller
 {
     /**
      * @param QueryBuilderSpendings $spending
-     * @return array|Collection
+     * @return Collection
      */
-    public function index(QueryBuilderSpendings $spending): array|Collection
+    public function index(QueryBuilderSpendings $spending): Collection
     {
-        return $spending->getSpendingWithCategoryName();
+        return $spending->getSpending();
     }
 
     /**
@@ -28,19 +28,36 @@ class SpendingController extends Controller
 
     /**
      * @param Request $request
+     * @param QueryBuilderSpendings $builder
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(
+        Request               $request,
+        QueryBuilderSpendings $builder
+    ): JsonResponse
     {
+        /*
+                if ($request->accepts(['text/html', 'application/json'])) {
+                    $validated = $request->only(['name', 'category_id', 'sum', 'created_at']);
+                }
+                $spending = new Spending($validated);
+                if ($spending->save()) {
+                    return response()->json($validated);
+                } else {
+                    return response()->json('error', 400);
+                }
+        */
+
         if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['name', 'category_id', 'sum', 'created_at']);
+            $spending = $builder->create(
+                $request->only(['name', 'category_id', 'sum', 'created_at'])
+            );
+
+            if ($spending) {
+                return response()->json($spending);
+            }
         }
-        $spending = new Spending($validated);
-        if ($spending->save()) {
-            return response()->json($validated);
-        } else {
-            return response()->json('error', 400);
-        }
+        return response()->json('Error', 404);
     }
 
     /**
@@ -62,20 +79,36 @@ class SpendingController extends Controller
     /**
      * @param Request $request
      * @param Spending $spending
+     * @param QueryBuilderSpendings $builder
      * @return JsonResponse
      */
-    public function update(Request $request, Spending $spending): JsonResponse
+    public function update(
+        Request               $request,
+        Spending              $spending,
+        QueryBuilderSpendings $builder
+    ): JsonResponse
     {
+        /*
+                if ($request->accepts(['text/html', 'application/json'])) {
+                    $validated = $request->only(['name', 'category_id', 'sum', 'updated_at']);
+                }
+                $spending = $spending->fill($validated);
+                if ($spending->save()) {
+                    return response()->json($validated);
+                } else {
+                    return response()->json('error', 400);
+                }
+        */
         if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['name', 'category_id', 'sum', 'updated_at']);
+            $spend = $builder->update(
+                $spending,
+                $request->only(['name', 'category_id', 'sum'])
+            );
+            return response()->json($spend);
         }
-        $spending = $spending->fill($validated);
-        if ($spending->save()) {
-            return response()->json($validated);
-        } else {
-            return response()->json('error', 400);
-        }
+        return response()->json('Error', 404);
     }
+
 
     /**
      * @param Spending $spending
@@ -86,7 +119,7 @@ class SpendingController extends Controller
         try {
             $spending->delete();
             return response()->json('success');
-        } catch(\Exception){
+        } catch (\Exception) {
             return response()->json('error', 400);
         }
     }
