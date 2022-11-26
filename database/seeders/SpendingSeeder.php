@@ -27,8 +27,9 @@ class SpendingSeeder extends Seeder
         $faker = Factory::create('ru_RU');
         $date = [];
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $date[] = [
+                'name' => $faker->jobTitle(),
                 'category_id' => rand(1, 5),
                 'sum'=> $faker->biasedNumberBetween(100, 5000),
                 'created_at' => now('Europe/Moscow')

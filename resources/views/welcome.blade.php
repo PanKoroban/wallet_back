@@ -38,8 +38,8 @@
                 <h1>Надо заполнить БД Данными!</h1>
                 <p>
                     * Сначала создай БД, у себя на локальном сервере. <br><br>
-                    * Сделай миграцию таблицы <br> --- php artisan migrate <br><br>
-                    * Сделай заполнение таблицы Faker | Seeder <br> --- php artisan db:seed <br>
+                    * Если новая БД без данных. Сделай миграцию таблицы <br> --- php artisan migrate <br><br>
+                    * Если БД уже существует. Сделай обновления, МиграциюFresh <br> --- php artisan migrate:fresh <br>
                 </p>
                 <h4>Посл этих команд должны отобразиться данные с БД</h4>
             </td>
@@ -54,6 +54,7 @@
     <thead>
     <tr>
         <th scope="col">ID</th>
+        <th scope="col">Название_траты</th>
         <th scope="col">ID_Категорий</th>
         <th scope="col">Сумма_Траты</th>
         <th scope="col">Дата_Добавления</th>
@@ -66,6 +67,7 @@
 
         <tr>
             <td>{{ $spend->id }}</td>
+            <td>{{ $spend->name }}</td>
             <td>{{ $spend->category_id }}</td>
             <td>{{ $spend->sum }}</td>
             <td>{{ $spend->created_at }}</td>
