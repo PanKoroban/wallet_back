@@ -10,14 +10,14 @@
 <body>
 <hr>
 <h1>Категории</h1>
-<table  class="iksweb">
+<table>
     <thead>
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Категория</th>
         <th scope="col">img_name</th>
         <th scope="col">Дата_Добавления</th>
-        <th scope="col">Дата_Обновления</th scope="col">
+        <th scope="col">Дата_Обновления</th>
     </tr>
     </thead>
     <tbody>
