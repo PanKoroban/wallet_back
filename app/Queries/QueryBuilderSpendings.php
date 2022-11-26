@@ -16,13 +16,14 @@ class QueryBuilderSpendings implements QueryBuilder
 
     public function getSpending(): Collection|array
     {
-        return Spending::query()->select('id', 'category_id', 'sum', 'created_at')->get();
+        return Spending::query()->select('id', 'name', 'category_id', 'sum', 'created_at')->get();
     }
 
     public function getSpendingWithCategoryName(): Collection|array
     {
         return Spending::query()->join('categories', 'categories.id', '=', 'spending.category_id')
             ->select([
+                'spending.name',
                 'spending.sum',
                 'categories.id as CategoryId',
                 'categories.name as CategoryName',

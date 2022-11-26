@@ -14,6 +14,7 @@ class Spending extends Model
      */
     protected $table = 'spending';
     protected $fillable = [
+        'name',
         'category_id',
         'sum',
         'created_at',
