@@ -8,8 +8,9 @@
     <title>GB Wallet</title>
 </head>
 <body>
+<h1>База данных - Backend(Laravel)</h1>
 <hr>
-<h1>Категории</h1>
+<h2>Категории</h2>
 <table>
     <thead>
     <tr>
@@ -49,7 +50,7 @@
     </tbody>
 </table>
 <hr>
-<h1>Траты</h1>
+<h2>Траты</h2>
 <table>
     <thead>
     <tr>
@@ -59,6 +60,7 @@
         <th scope="col">Сумма_Траты</th>
         <th scope="col">Дата_Добавления</th>
         <th scope="col">Дата_Обновления</th>
+        <th scope="col">Категория</th>
     </tr>
     </thead>
     <tbody>
@@ -68,15 +70,17 @@
         <tr>
             <td>{{ $spend->id }}</td>
             <td>{{ $spend->name }}</td>
-            <td>{{ $spend->category_id }}</td>
+            <td>{{ $spend->category_id}}</td>
             <td>{{ $spend->sum }}</td>
             <td>{{ $spend->created_at }}</td>
             <td>{{ $spend->updated_at }}</td>
+            <td>{{ $spend->category->name }}</td>
         </tr>
 
     @endforeach
 
     </tbody>
 </table>
+<hr>
 </body>
 </html>
