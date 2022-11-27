@@ -40,7 +40,7 @@ class CategoryController extends Controller
             return response()->json('error', 400);
         }
 */
-        if ($request->accepts(['text/html', 'application/json'])) {
+        if ($request->accepts(['application/json'])) {
             $category = $builder->create(
                 $request->only(['name', 'img_name'])
             );
