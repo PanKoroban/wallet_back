@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SpendingStoreRequest;
 use App\Models\Spending;
 use App\Queries\QueryBuilderSpendings;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,12 +28,12 @@ class SpendingController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param SpendingStoreRequest $request
      * @param QueryBuilderSpendings $builder
      * @return JsonResponse
      */
     public function store(
-        Request               $request,
+        SpendingStoreRequest               $request,
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
@@ -49,9 +50,7 @@ class SpendingController extends Controller
         */
 
         if ($request->accepts(['text/html', 'application/json'])) {
-            $spending = $builder->create(
-                $request->only(['name', 'category_id', 'sum', 'created_at'])
-            );
+            $spending = $builder->create($request->validated());
 
             if ($spending) {
                 return response()->json($spending);
@@ -83,30 +82,16 @@ class SpendingController extends Controller
      * @return JsonResponse
      */
     public function update(
-        Request               $request,
+        SpendingStoreRequest               $request,
         Spending              $spending,
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
-        /*
-                if ($request->accepts(['text/html', 'application/json'])) {
-                    $validated = $request->only(['name', 'category_id', 'sum', 'updated_at']);
-                }
-                $spending = $spending->fill($validated);
-                if ($spending->save()) {
-                    return response()->json($validated);
-                } else {
-                    return response()->json('error', 400);
-                }
-        */
-        if ($request->accepts(['text/html', 'application/json'])) {
             $spend = $builder->update(
                 $spending,
-                $request->only(['name', 'category_id', 'sum', 'created_at'])
+                $request->validated()
             );
             return response()->json($spend);
-        }
-        return response()->json('Error', 404);
     }
 
 
