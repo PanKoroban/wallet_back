@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use App\Queries\QueryBuilderCategory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -20,71 +22,35 @@ class CategoryController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param CategoryStoreRequest $request
      * @param QueryBuilderCategory $builder
      * @return JsonResponse
      */
     public function store(
-        Request              $request,
+        CategoryStoreRequest $request,
         QueryBuilderCategory $builder
-    ): JsonResponse
+    )
     {
-/*
-        if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['name', 'img_name']);
-        }
-        $category = new Category($validated);
-        if ($category->save()) {
-            return response()->json($validated);
-        } else {
-            return response()->json('error', 400);
-        }
-*/
-        if ($request->accepts(['application/json'])) {
-            $category = $builder->create(
-                $request->only(['name', 'img_name'])
-            );
-
-            if ($category) {
-                return response()->json($category);
-            }
-        }
-        return response()->json('Error', 404);
-
+            $category = $builder->create($request->validated());
+            return response()->json($category);
     }
 
+
+
     /**
-     * @param Request $request
+     * @param CategoryUpdateRequest $request
      * @param Category $category
      * @param QueryBuilderCategory $builder
      * @return JsonResponse
      */
     public function update(
-        Request $request,
+        CategoryUpdateRequest $request,
         Category $category,
         QueryBuilderCategory $builder
     ): JsonResponse
     {
-/*
-        if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['name', 'img_name']);
-        }
-
-        $category = $category->fill($validated);
-        if ($category->save()) {
-            return response()->json($validated);;
-        }
-
-        return response()->json('error', 400);
-*/
-        if ($request->accepts(['text/html', 'application/json'])) {
-            $spend = $builder->update(
-                $category,
-                $request->only(['name', 'img_name'])
-            );
+            $spend = $builder->update($category, $request->validated());
             return response()->json($spend);
-        }
-        return response()->json('Error', 404);
     }
 
     /**
