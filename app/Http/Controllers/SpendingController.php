@@ -102,7 +102,7 @@ class SpendingController extends Controller
         if ($request->accepts(['text/html', 'application/json'])) {
             $spend = $builder->update(
                 $spending,
-                $request->only(['name', 'category_id', 'sum'])
+                $request->only(['name', 'category_id', 'sum', 'created_at'])
             );
             return response()->json($spend);
         }
