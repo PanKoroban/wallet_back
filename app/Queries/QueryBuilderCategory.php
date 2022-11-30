@@ -35,4 +35,21 @@ class QueryBuilderCategory implements QueryBuilder
         return $category->fill($date);
     }
 
+    public function destroyCategory($id)
+    {
+        if($this->model->find($id) == NULL ){
+            return response()->json('Category does not exist', 400);
+        }
+
+        try {
+            $this->model->delete();
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json('Category cannot be deleted', 400);
+        }
+
+    }
+
+
 }

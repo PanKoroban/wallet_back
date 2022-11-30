@@ -53,18 +53,9 @@ class CategoryController extends Controller
             return response()->json($spend);
     }
 
-    /**
-     * @param Category $category
-     * @return JsonResponse
-     */
-    public function destroy(Category $category)
+
+    public function destroy(QueryBuilderCategory $categories, $id)
     {
-        try {
-            $category->delete();
-            return response()->json('ok');
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            return response()->json('error', 400);
-        }
+        return $categories->destroyCategory($id);
     }
 }
