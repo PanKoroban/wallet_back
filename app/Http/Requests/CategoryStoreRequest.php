@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 
-class CategoryStoreRequest extends ApiFormRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class CategoryStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
