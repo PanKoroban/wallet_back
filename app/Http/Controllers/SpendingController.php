@@ -99,13 +99,8 @@ class SpendingController extends Controller
      * @param Spending $spending
      * @return JsonResponse
      */
-    public function destroy(Spending $spending): JsonResponse
+    public function destroy(QueryBuilderSpendings $spending, $id): JsonResponse
     {
-        try {
-            $spending->delete();
-            return response()->json('success');
-        } catch (\Exception) {
-            return response()->json('error', 400);
-        }
+        return $spending->destroySpending($id);
     }
 }

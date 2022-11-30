@@ -53,4 +53,18 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->get();
     }
 
+    public function destroySpending($id)
+    {
+        if($this->model->find($id) == NULL ){
+            return response()->json('Spending does not exist', 400);
+        }
+        try {
+        $this->model->delete();
+        return response()->json('ok');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json('Error while deleting', 400);
+        }
+    }
+
 }
