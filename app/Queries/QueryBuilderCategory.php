@@ -21,8 +21,9 @@ final class QueryBuilderCategory implements QueryBuilder
     public function getCategories(): Collection|array
     {
         return $this->model
-/*            ->with('spending')   Будем использовать при фильтрации по Категориям   */
+            ->with('img')
             ->get();
+         /* ->with('spending') Будем использовать при фильтрации по Категориям */
     }
 
     public function create(array $date): Category
@@ -38,7 +39,7 @@ final class QueryBuilderCategory implements QueryBuilder
 
     public function destroyCategory($id): JsonResponse
     {
-        if($this->model->find($id) == NULL ){
+        if ($this->model->find($id) == NULL) {
             return response()->json('Категория не существует!', 400);
         }
 
