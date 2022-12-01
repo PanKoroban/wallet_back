@@ -25,10 +25,10 @@ class SpendingUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:20'],
-            'category_id' => ['required', 'string', 'max:20'],
-            'sum' => ['required', 'string', 'max:20'],
-            'created_at' => ['required', 'string', 'max:20']
+            'name' => ['required', 'string', 'max:30'],
+            'category_id' => ['required', 'int', 'exists:categories,id'],
+            'sum' => ['required', 'numeric'],
+            'created_at' => ['date']
         ];
     }
 }
