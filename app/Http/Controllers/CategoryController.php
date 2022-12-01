@@ -8,7 +8,6 @@ use App\Models\Category;
 use App\Queries\QueryBuilderCategory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -29,13 +28,11 @@ class CategoryController extends Controller
     public function store(
         CategoryStoreRequest $request,
         QueryBuilderCategory $builder
-    )
+    ): JsonResponse
     {
-            $category = $builder->create($request->validated());
-            return response()->json($category);
+        $category = $builder->create($request->validated());
+        return response()->json($category);
     }
-
-
 
     /**
      * @param CategoryUpdateRequest $request
@@ -45,16 +42,20 @@ class CategoryController extends Controller
      */
     public function update(
         CategoryUpdateRequest $request,
-        Category $category,
-        QueryBuilderCategory $builder
+        Category              $category,
+        QueryBuilderCategory  $builder
     ): JsonResponse
     {
-            $spend = $builder->update($category, $request->validated());
-            return response()->json($spend);
+        $spend = $builder->update($category, $request->validated());
+        return response()->json($spend);
     }
 
-
-    public function destroy(QueryBuilderCategory $categories, $id)
+    /**
+     * @param QueryBuilderCategory $categories
+     * @param $id
+     * @return JsonResponse
+     */
+    public function destroy(QueryBuilderCategory $categories, $id): JsonResponse
     {
         return $categories->destroyCategory($id);
     }

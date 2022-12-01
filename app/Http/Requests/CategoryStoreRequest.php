@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryStoreRequest extends FormRequest
@@ -26,7 +25,7 @@ class CategoryStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:20'],
-            'img_name' => ['required', 'string', 'max:20']
+            'img_id' => ['required', 'int', 'exists:categories_img,id']
         ];
     }
 }

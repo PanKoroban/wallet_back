@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->string('img_name')->nullable();
+            $table->foreignId('img_id')->constrained('categories_img');
             $table->timestamps();
         });
         (new CategoriesSeeder())->run();

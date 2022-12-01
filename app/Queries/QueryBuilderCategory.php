@@ -7,8 +7,9 @@ namespace App\Queries;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 
-class QueryBuilderCategory implements QueryBuilder
+final class QueryBuilderCategory implements QueryBuilder
 {
     private Builder $model;
 
@@ -20,8 +21,9 @@ class QueryBuilderCategory implements QueryBuilder
     public function getCategories(): Collection|array
     {
         return $this->model
-/*            ->with('spending')   Будем использовать при фильтрации по Категориям   */
+            ->with('img')
             ->get();
+         /* ->with('spending') Будем использовать при фильтрации по Категориям */
     }
 
     public function create(array $date): Category
@@ -35,10 +37,10 @@ class QueryBuilderCategory implements QueryBuilder
         return $category->fill($date);
     }
 
-    public function destroyCategory($id)
+    public function destroyCategory($id): JsonResponse
     {
-        if($this->model->find($id) == NULL ){
-            return response()->json('Category does not exist', 400);
+        if ($this->model->find($id) == NULL) {
+            return response()->json('Категория не существует!', 400);
         }
 
         try {
@@ -46,7 +48,7 @@ class QueryBuilderCategory implements QueryBuilder
             return response()->json('ok');
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
-            return response()->json('Category cannot be deleted', 400);
+            return response()->json('Категория не может быть удалена!', 400);
         }
 
     }
