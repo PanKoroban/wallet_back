@@ -23,33 +23,30 @@ class CategoriesSeeder extends Seeder
      */
     private function getDate(): array
     {
-
-        $date = [];
-
         return $date[] = [
             [
                 'name' => 'Одежда',
-                'img_name' => 'exp-1.png',
+                'img_id' => '1',
                 'created_at' => now('Europe/Moscow'),
             ],
             [
                 'name' => 'ЖКХ, связь, интернет',
-                'img_name' => 'exp-2.png',
+                'img_id' => '2',
                 'created_at' => now('Europe/Moscow'),
             ],
             [
                 'name' => 'Пополнение',
-                'img_name' => 'exp-3.png',
+                'img_id' => '3',
                 'created_at' => now('Europe/Moscow'),
             ],
             [
                 'name' => 'Образование',
-                'img_name' => 'exp-4.png',
+                'img_id' => '4',
                 'created_at' => now('Europe/Moscow'),
             ],
             [
                 'name' => 'Медицина',
-                'img_name' => 'exp-5.png',
+                'img_id' => '5',
                 'created_at' => now('Europe/Moscow'),
             ],
         ];
