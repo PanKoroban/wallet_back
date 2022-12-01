@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SpendingStoreRequest;
+use App\Http\Requests\SpendingUpdateRequest;
 use App\Models\Spending;
 use App\Queries\QueryBuilderSpendings;
 use Illuminate\Database\Eloquent\Collection;
@@ -63,13 +64,13 @@ class SpendingController extends Controller
     }
 
     /**
-     * @param SpendingStoreRequest $request
+     * @param SpendingUpdateRequest $request
      * @param Spending $spending
      * @param QueryBuilderSpendings $builder
      * @return JsonResponse
      */
     public function update(
-        SpendingStoreRequest  $request,
+        SpendingUpdateRequest  $request,
         Spending              $spending,
         QueryBuilderSpendings $builder
     ): JsonResponse
