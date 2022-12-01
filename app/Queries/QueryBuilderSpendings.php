@@ -7,6 +7,7 @@ namespace App\Queries;
 use App\Models\Spending;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 
 final class QueryBuilderSpendings implements QueryBuilder
 {
@@ -26,12 +27,12 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->get();
     }
 
-    public function create(array $date): Spending|bool
+    public function create(array $date): Spending
     {
         return Spending::create($date);
     }
 
-    public function update(Spending $spending, array $date): Spending|bool
+    public function update(Spending $spending, array $date): Spending
     {
         $spending->fill($date)->save();
         return $spending->fill($date);
@@ -53,7 +54,7 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->get();
     }
 
-    public function destroySpending($id)
+    public function destroySpending($id): JsonResponse
     {
         if($this->model->find($id) == NULL ){
             return response()->json('Spending does not exist', 400);

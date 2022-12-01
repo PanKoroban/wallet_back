@@ -7,7 +7,6 @@ use App\Models\Spending;
 use App\Queries\QueryBuilderSpendings;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class SpendingController extends Controller
 {
@@ -33,22 +32,10 @@ class SpendingController extends Controller
      * @return JsonResponse
      */
     public function store(
-        SpendingStoreRequest               $request,
+        SpendingStoreRequest  $request,
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
-        /*
-                if ($request->accepts(['text/html', 'application/json'])) {
-                    $validated = $request->only(['name', 'category_id', 'sum', 'created_at']);
-                }
-                $spending = new Spending($validated);
-                if ($spending->save()) {
-                    return response()->json($validated);
-                } else {
-                    return response()->json('error', 400);
-                }
-        */
-
         if ($request->accepts(['text/html', 'application/json'])) {
             $spending = $builder->create($request->validated());
 
@@ -76,27 +63,27 @@ class SpendingController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param SpendingStoreRequest $request
      * @param Spending $spending
      * @param QueryBuilderSpendings $builder
      * @return JsonResponse
      */
     public function update(
-        SpendingStoreRequest               $request,
+        SpendingStoreRequest  $request,
         Spending              $spending,
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
-            $spend = $builder->update(
-                $spending,
-                $request->validated()
-            );
-            return response()->json($spend);
+        $spend = $builder->update(
+            $spending,
+            $request->validated()
+        );
+        return response()->json($spend);
     }
 
-
     /**
-     * @param Spending $spending
+     * @param QueryBuilderSpendings $spending
+     * @param $id
      * @return JsonResponse
      */
     public function destroy(QueryBuilderSpendings $spending, $id): JsonResponse
