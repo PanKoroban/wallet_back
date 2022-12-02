@@ -50,14 +50,11 @@ final class QueryBuilderSpendings implements QueryBuilder
                 'spending.id',
                 'spending.name',
                 'spending.category_id',
+                'categories.name as categoryName',
+                'categories_img.img_name as categoryImgName',
                 'spending.sum',
                 'spending.created_at',
                 'spending.updated_at',
-                'categories.id as category.id',
-                'categories.name as category.name',
-                'categories.img_id as category.img_id',
-                'categories_img.id as category_img.id',
-                'categories_img.img_name as category_img.img_Name',
                 ])
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc')
