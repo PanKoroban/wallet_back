@@ -41,16 +41,23 @@ final class QueryBuilderSpendings implements QueryBuilder
     /**
      * Можем подключить если понадобиться в Контроллере вместо -> getSpending
      */
-    public function getSpendingWithCategoryName(): Collection|array
+    public function getSpendingsWithCategoryNameAndNameImg(): Collection|array
     {
-        return Spending::query()->join('categories', 'categories.id', '=', 'spending.category_id')
+        return Spending::query()
+            ->join('categories', 'categories.id', '=', 'spending.category_id')
+            ->join('categories_img', 'categories_img.id', '=', 'categories.img_id')
             ->select([
+                'spending.id',
                 'spending.name',
+                'spending.category_id',
+                'categories.name as categoryName',
+                'categories_img.img_name as categoryImgName',
                 'spending.sum',
-                'categories.id as CategoryId',
-                'categories.name as CategoryName',
-                'categories.img_name as CategoryImgName',
-                'spending.created_at'])
+                'spending.created_at',
+                'spending.updated_at',
+                ])
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
     }
 
