@@ -17,7 +17,7 @@ class SpendingController extends Controller
      */
     public function index(QueryBuilderSpendings $spending): Collection
     {
-        return $spending->getSpendingsWithCategoryNameAndNameImg();
+        return $spending->getSpending();
     }
 
     /**

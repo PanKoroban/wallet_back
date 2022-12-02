@@ -22,6 +22,7 @@ final class QueryBuilderSpendings implements QueryBuilder
     {
         return $this->model
             ->with('category')
+            ->with('img')
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc')
             ->get();
