@@ -12,16 +12,16 @@
 
 {{-------------------------------------------------------------------------------------------------------------}}
 <hr>
-<h2>Категории</h2>
+<h2>Категории - <span style="color: red">categories</span></h2>
 <table>
     <thead>
     <tr>
-        <th scope="col">* ID</th>
-        <th scope="col">* Категория</th>
-        <th scope="col" style="color: red">* img_ID</th>
-        <th scope="col">* Дата_Добавления</th>
-        <th scope="col">* Дата_Обновления</th>
-        <th scope="col" style="color: red; padding-left: 15px">* img_NAME ($category->img->img_name)</th>
+        <th scope="col">* id</th>
+        <th scope="col">* name</th>
+        <th scope="col" style="color: blue">* img_id</th>
+        <th scope="col">* created_at</th>
+        <th scope="col">* updated_at</th>
+        <th scope="col" style="color: blue; padding-left: 15px">* img_name</th>
     </tr>
     </thead>
     <tbody>
@@ -32,7 +32,7 @@
             <td style="text-align: center">{{ $category->img_id }}</td>
             <td style="text-align: center">{{ $category->created_at }}</td>
             <td style="text-align: center">{{ $category->updated_at }}</td>
-            <td>{{ $category->img->img_name }}</td>
+            <td style="text-align: right">{{ $category->img->img_name }}</td>
         </tr>
     @empty
         <tr>
@@ -53,18 +53,18 @@
 
 {{-------------------------------------------------------------------------------------------------------------}}
 <hr>
-<h2>Траты</h2>
+<h2>Траты - spending </h2>
 <table>
     <thead>
     <tr>
-        <th scope="col">* ID</th>
-        <th scope="col">* Название_траты</th>
-        <th scope="col" style="color: red;">* ID_Категорий</th>
-        <th scope="col">* Сумма_Траты</th>
-        <th scope="col">* Дата_Добавления</th>
-        <th scope="col">* Дата_Обновления</th>
-        <th scope="col" style="color: red">* Название Категория</th>
-        <th scope="col" style="color: red">* Название Фото Категории ( $spend->category->img->img_name )</th>
+        <th scope="col">* id</th>
+        <th scope="col">* name</th>
+        <th scope="col" style="color: red;">* category_id</th>
+        <th scope="col" style="padding-left: 40px">* sum</th>
+        <th scope="col">* created_at</th>
+        <th scope="col" style="padding-left: 40px">* updated_at</th>
+        <th scope="col" style="color: red; padding-left: 60px">* categories / name</th>
+        <th scope="col" style="color: blue">* categories_img / img_name</th>
     </tr>
     </thead>
     <tbody>
@@ -73,11 +73,11 @@
             <td>{{ $spend->id }}</td>
             <td style="padding-left: 15px">{{ $spend->name }}</td>
             <td style="text-align: center">{{ $spend->category_id}}</td>
-            <td style="text-align: center">{{ $spend->sum }}</td>
-            <td style="text-align: center">{{ $spend->created_at }}</td>
-            <td style="text-align: center">{{ $spend->updated_at }}</td>
-            <td style="padding-left: 15px">{{ $spend->category->name }}</td>
-            <td style="padding-left: 15px">{{ $spend->category->img->img_name }}</td>
+            <td style="text-align: center; padding-left: 40px">{{ $spend->sum }}</td>
+            <td style="text-align: center; padding-left: 40px">{{ $spend->created_at }}</td>
+            <td style="text-align: center; padding-left: 40px">{{ $spend->updated_at }}</td>
+            <td style="padding-left: 90px">{{ $spend->category->name }}</td>
+            <td style="padding-left: 25px">{{ $spend->category->img->img_name }}</td>
         </tr>
     @endforeach
     </tbody>
@@ -85,7 +85,7 @@
 
 {{-------------------------------------------------------------------------------------------------------------}}
 <hr>
-<h2>IMG Категории</h2>
+<h2>IMG Категории - <span style="color: blue">categories_img</span></h2>
 <table>
     <thead>
     <tr>
