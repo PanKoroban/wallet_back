@@ -38,11 +38,12 @@ class SpendingController extends Controller
     ): JsonResponse
     {
         if ($request->accepts(['text/html', 'application/json'])) {
-            $spending = $builder->create($request->validated());
 
-            if ($spending) {
-                return response()->json($spending);
-            }
+            $builder->create($request->validated());
+
+            $allDateSpending = $builder->getSpending();
+
+            return response()->json($allDateSpending);
         }
         return response()->json('Error', 404);
     }
@@ -70,16 +71,16 @@ class SpendingController extends Controller
      * @return JsonResponse
      */
     public function update(
-        SpendingUpdateRequest  $request,
+        SpendingUpdateRequest $request,
         Spending              $spending,
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
-        $spend = $builder->update(
-            $spending,
-            $request->validated()
-        );
-        return response()->json($spend);
+        $builder->update($spending, $request->validated());
+
+        $allDateSpending = $builder->getSpending();
+
+        return response()->json($allDateSpending);
     }
 
     /**
