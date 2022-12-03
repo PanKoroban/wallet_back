@@ -65,14 +65,14 @@ final class QueryBuilderSpendings implements QueryBuilder
     public function destroySpending($id): JsonResponse
     {
         if($this->model->find($id) == NULL ){
-            return response()->json('Spending does not exist', 400);
+            return response()->json('Не существует такой траты!', 400);
         }
         try {
         $this->model->delete();
         return response()->json('ok');
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
-            return response()->json('Error while deleting', 400);
+            return response()->json('Ошибка при удалении!', 400);
         }
     }
 
