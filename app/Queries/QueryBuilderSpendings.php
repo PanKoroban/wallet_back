@@ -28,6 +28,16 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->get();
     }
 
+    public function getSpendingByCategory($id): Collection|string
+    {
+        return $this->model
+            ->with('category')
+            ->with('img')
+            ->orderBy('created_at', 'desc')
+            ->where('category_id', '=', $id)
+            ->get();
+    }
+
     public function create(array $date): Spending
     {
         return Spending::create($date);
@@ -56,7 +66,7 @@ final class QueryBuilderSpendings implements QueryBuilder
                 'spending.sum',
                 'spending.created_at',
                 'spending.updated_at',
-                ])
+            ])
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc')
             ->get();
@@ -64,12 +74,12 @@ final class QueryBuilderSpendings implements QueryBuilder
 
     public function destroySpending($id): JsonResponse
     {
-        if($this->model->find($id) == NULL ){
+        if ($this->model->find($id) == NULL) {
             return response()->json('Не существует такой траты!', 400);
         }
         try {
-        $this->model->delete();
-        return response()->json('ok');
+            $this->model->delete();
+            return response()->json('ok');
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json('Ошибка при удалении!', 400);

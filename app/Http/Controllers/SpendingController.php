@@ -41,19 +41,19 @@ class SpendingController extends Controller
 
             $builder->create($request->validated());
 
-            $allDateSpending = $builder->getSpending();
-
-            return response()->json($allDateSpending);
+            return response()->json($builder->getSpending());
         }
         return response()->json('Error', 404);
     }
 
     /**
+     * @param QueryBuilderSpendings $builder
      * @param $id
-     * @return void
+     * @return Collection
      */
-    public function show($id)
+    public function show(QueryBuilderSpendings $builder, $id): Collection
     {
+        return $builder->getSpendingByCategory($id);
     }
 
     /**
@@ -78,9 +78,7 @@ class SpendingController extends Controller
     {
         $builder->update($spending, $request->validated());
 
-        $allDateSpending = $builder->getSpending();
-
-        return response()->json($allDateSpending);
+        return response()->json($builder->getSpending());
     }
 
     /**
