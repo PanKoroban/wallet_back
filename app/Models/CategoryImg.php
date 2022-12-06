@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class CategoryImg extends Model
 {
@@ -25,4 +26,10 @@ class CategoryImg extends Model
     {
         return CategoryImg::query()->get();
     }
+
+    public function getCategoryImgById(int $id): Model|Collection|Builder|array|null
+    {
+        return CategoryImg::query()->findOrFail($id);
+    }
+
 }
