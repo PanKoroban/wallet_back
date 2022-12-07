@@ -45,7 +45,8 @@ final class QueryBuilderCategory implements QueryBuilder
 
         try {
             $this->model->delete();
-            return response()->json('ok');
+            $category = new Category;
+            return response()->json($category->with('img')->get());
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json('Категория не может быть удалена!', 400);

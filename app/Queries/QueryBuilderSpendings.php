@@ -79,7 +79,12 @@ final class QueryBuilderSpendings implements QueryBuilder
         }
         try {
             $this->model->delete();
-            return response()->json('ok');
+            $spending = new Spending;
+            return response()->json($spending->with('category')
+                ->with('img')
+                ->orderBy('created_at', 'desc')
+                ->orderBy('id', 'desc')
+                ->get());
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json('Ошибка при удалении!', 400);
