@@ -37,13 +37,9 @@ class SpendingController extends Controller
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
-        if ($request->accepts(['text/html', 'application/json'])) {
+        $builder->create($request->validated());
+        return response()->json($builder->getSpending());
 
-            $builder->create($request->validated());
-
-            return response()->json($builder->getSpending());
-        }
-        return response()->json('Error', 404);
     }
 
     /**

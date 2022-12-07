@@ -31,7 +31,7 @@ class CategoryController extends Controller
     ): JsonResponse
     {
         $category = $builder->create($request->validated());
-        return response()->json($category);
+        return response()->json($builder->getCategories());
     }
 
     /**
@@ -47,7 +47,7 @@ class CategoryController extends Controller
     ): JsonResponse
     {
         $spend = $builder->update($category, $request->validated());
-        return response()->json($spend);
+        return response()->json($builder->getCategories());
     }
 
     /**
