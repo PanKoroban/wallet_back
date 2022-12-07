@@ -26,28 +26,28 @@ class CategoriesSeeder extends Seeder
         return $date[] = [
             [
                 'name' => 'Одежда',
-                'img_id' => '1',
-                'created_at' => now('Europe/Moscow'),
+                'img_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'name' => 'ЖКХ, связь, интернет',
-                'img_id' => '2',
-                'created_at' => now('Europe/Moscow'),
+                'img_id' => 2,
+                'created_at' => now(),
             ],
             [
                 'name' => 'Пополнение',
-                'img_id' => '3',
-                'created_at' => now('Europe/Moscow'),
+                'img_id' => 3,
+                'created_at' => now(),
             ],
             [
                 'name' => 'Образование',
-                'img_id' => '4',
-                'created_at' => now('Europe/Moscow'),
+                'img_id' => 4,
+                'created_at' => now(),
             ],
             [
                 'name' => 'Медицина',
-                'img_id' => '5',
-                'created_at' => now('Europe/Moscow'),
+                'img_id' => 5,
+                'created_at' => now(),
             ],
         ];
     }

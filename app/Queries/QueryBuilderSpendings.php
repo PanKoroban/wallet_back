@@ -18,21 +18,60 @@ final class QueryBuilderSpendings implements QueryBuilder
         $this->model = Spending::query();
     }
 
+    /**
+     * ВСЕ ТРАТЫ
+     */
     public function getSpending(): Collection
     {
-        return $this->model
-            ->with('category')
-            ->with('img')
+        return Spending::query()
+            ->join('categories', 'categories.id', '=', 'spending.category_id')
+            ->join('categories_img', 'categories_img.id', '=', 'categories.img_id')
+            ->select([
+                'spending.id',
+                'spending.name',
+                'spending.category_id',
+                'spending.sum',
+                'spending.created_at',
+                'spending.updated_at',
+
+                'categories.name as categoryName',
+                'categories_img.img_name as categoryImg',
+            ])
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc')
             ->get();
     }
 
+// НЕ работает!
+//    public function getSpendingOLD(): Collection
+//    {
+//        return $this->model
+//            ->with('category')
+//            ->with('img')
+//            ->orderBy('created_at', 'desc')
+//            ->orderBy('id', 'desc')
+//            ->get();
+//    }
+
+    /**
+     * Траты по ID Категорий!
+     */
     public function getSpendingByCategory($id): Collection|string
     {
-        return $this->model
-            ->with('category')
-            ->with('img')
+        return Spending::query()
+            ->join('categories', 'categories.id', '=', 'spending.category_id')
+            ->join('categories_img', 'categories_img.id', '=', 'categories.img_id')
+            ->select([
+                'spending.id',
+                'spending.name',
+                'spending.category_id',
+                'spending.sum',
+                'spending.created_at',
+                'spending.updated_at',
+
+                'categories.name as categoryName',
+                'categories_img.img_name as categoryImg',
+            ])
             ->orderBy('created_at', 'desc')
             ->where('category_id', '=', $id)
             ->get();
@@ -47,29 +86,6 @@ final class QueryBuilderSpendings implements QueryBuilder
     {
         $spending->fill($date)->save();
         return $spending->fill($date);
-    }
-
-    /**
-     * Можем подключить если понадобиться в Контроллере вместо -> getSpending
-     */
-    public function getSpendingsWithCategoryNameAndNameImg(): Collection|array
-    {
-        return Spending::query()
-            ->join('categories', 'categories.id', '=', 'spending.category_id')
-            ->join('categories_img', 'categories_img.id', '=', 'categories.img_id')
-            ->select([
-                'spending.id',
-                'spending.name',
-                'spending.category_id',
-                'categories.name as categoryName',
-                'categories_img.img_name as categoryImgName',
-                'spending.sum',
-                'spending.created_at',
-                'spending.updated_at',
-            ])
-            ->orderBy('created_at', 'desc')
-            ->orderBy('id', 'desc')
-            ->get();
     }
 
     public function destroySpending($id): JsonResponse

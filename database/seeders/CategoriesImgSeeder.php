@@ -36,14 +36,8 @@ class CategoriesImgSeeder extends Seeder
             ['img_name' => 'childhood.svg'],
             ['img_name' => 'cocktail.svg'],
             ['img_name' => 'diamonds.svg'],
-            ['img_name' => 'Edit.png'],
-            ['img_name' => 'education.svg'],
             ['img_name' => 'electric.svg'],
             ['img_name' => 'flower.svg'],
-            ['img_name' => 'house.svg'],
-            ['img_name' => 'medicine.svg'],
-            ['img_name' => 'money 2.svg'],
-            ['img_name' => 'money.svg'],
             ['img_name' => 'paint-roller.svg'],
             ['img_name' => 'present.svg'],
             ['img_name' => 'repair.svg'],
@@ -54,7 +48,6 @@ class CategoriesImgSeeder extends Seeder
             ['img_name' => 'television.svg'],
             ['img_name' => 'tennis-racket-ball.svg'],
             ['img_name' => 'transport.svg'],
-            ['img_name' => 'white-t-shier.svg'],
             ['img_name' => 'wifi.svg'],
         ];
     }

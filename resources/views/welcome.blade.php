@@ -76,8 +76,8 @@
             <td style="text-align: center; padding-left: 40px">{{ $spend->sum }}</td>
             <td style="text-align: center; padding-left: 40px">{{ $spend->created_at }}</td>
             <td style="text-align: center; padding-left: 40px">{{ $spend->updated_at }}</td>
-            <td style="padding-left: 90px">{{ $spend->category->name }}</td>
-            <td style="padding-left: 25px">{{ $spend->img->img_name }}</td>
+            <td style="padding-left: 90px">{{ $spend->categoryName}}</td>
+            <td style="padding-left: 25px">{{ $spend->categoryImg }}</td>
         </tr>
     @endforeach
     </tbody>
@@ -104,6 +104,9 @@
 </table>
 
 {{-------------------------------------------------------------------------------------------------------------}}
+<hr>
+<br>
+<br>
 <hr>
 </body>
 </html>
