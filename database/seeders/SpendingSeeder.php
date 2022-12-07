@@ -32,7 +32,7 @@ class SpendingSeeder extends Seeder
                 'name' => $faker->jobTitle(),
                 'category_id' => rand(1, 5),
                 'sum'=> $faker->biasedNumberBetween(100, 5000),
-                'created_at' => now('Europe/Moscow')
+                'created_at' => now()
             ];
         }
         return $date;
