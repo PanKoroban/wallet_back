@@ -23,7 +23,6 @@ final class QueryBuilderCategory implements QueryBuilder
         return $this->model
             ->with('img')
             ->get();
-         /* ->with('spending') Будем использовать при фильтрации по Категориям */
     }
 
     public function create(array $date): Category
@@ -49,7 +48,7 @@ final class QueryBuilderCategory implements QueryBuilder
             return response()->json($category->with('img')->get());
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
-            return response()->json('Категория не может быть удалена!', 400);
+            return response()->json('Категория используется и не может быть удалена!', 400);
         }
 
     }
