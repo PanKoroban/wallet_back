@@ -42,19 +42,8 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->get();
     }
 
-// НЕ работает!
-//    public function getSpendingOLD(): Collection
-//    {
-//        return $this->model
-//            ->with('category')
-//            ->with('img')
-//            ->orderBy('created_at', 'desc')
-//            ->orderBy('id', 'desc')
-//            ->get();
-//    }
-
     /**
-     * Траты по ID Категорий!
+     * Фильтр трат по ID Категорий!
      */
     public function getSpendingByCategory($id): Collection|string
     {
@@ -95,16 +84,22 @@ final class QueryBuilderSpendings implements QueryBuilder
         }
         try {
             $this->model->delete();
-            $spending = new Spending;
-            return response()->json($spending->with('category')
-                ->with('img')
-                ->orderBy('created_at', 'desc')
-                ->orderBy('id', 'desc')
-                ->get());
+            return response()->json(self::getSpending());
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json('Ошибка при удалении!', 400);
         }
     }
+
+    // НЕ работает!
+    //    public function getSpendingOLD(): Collection
+    //    {
+    //        return $this->model
+    //            ->with('category')
+    //            ->with('img')
+    //            ->orderBy('created_at', 'desc')
+    //            ->orderBy('id', 'desc')
+    //            ->get();
+    //    }
 
 }

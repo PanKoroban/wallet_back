@@ -21,13 +21,6 @@ class SpendingController extends Controller
     }
 
     /**
-     * @return void
-     */
-    public function create()
-    {
-    }
-
-    /**
      * @param SpendingStoreRequest $request
      * @param QueryBuilderSpendings $builder
      * @return JsonResponse
@@ -50,14 +43,6 @@ class SpendingController extends Controller
     public function show(QueryBuilderSpendings $builder, $id): Collection
     {
         return $builder->getSpendingByCategory($id);
-    }
-
-    /**
-     * @param $id
-     * @return void
-     */
-    public function edit($id)
-    {
     }
 
     /**
