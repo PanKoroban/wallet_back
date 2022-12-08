@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryImgController;
 use App\Http\Controllers\SpendingController;
+use \App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,7 @@ Route::apiResource('/categoryImg', CategoryImgController::class);
 
 Route::apiResource('/spending', SpendingController::class);
 
+Route::controller(SettingController::class)->group(function () {
+    Route::get('/setting', 'index');
+    Route::post('/setting', 'store');
+});
