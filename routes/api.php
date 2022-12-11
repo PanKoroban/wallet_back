@@ -22,13 +22,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/category', CategoryController::class);
+Route::middleware('auth')->group(function () {
+    Route::apiResource('/category', CategoryController::class);
 
-Route::apiResource('/categoryImg', CategoryImgController::class);
+    Route::apiResource('/categoryImg', CategoryImgController::class);
 
-Route::apiResource('/spending', SpendingController::class);
+    Route::apiResource('/spending', SpendingController::class);
 
-Route::controller(SettingController::class)->group(function () {
-    Route::get('/setting', 'index');
-    Route::post('/setting', 'store');
+    Route::controller(SettingController::class)->group(function () {
+        Route::get('/setting', 'index');
+        Route::post('/setting', 'store');
+    });
 });
+
+Auth::routes();
+
