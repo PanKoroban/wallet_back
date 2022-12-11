@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [IndexController::class, 'index']);
+Route::middleware('auth')->group(function () {
 
+    Route::get('/', [IndexController::class, 'index']);
+
+});
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
