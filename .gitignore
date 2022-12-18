@@ -16,3 +16,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+!vendor/laravel/ui/auth-backend/AuthenticatesUsers.php
