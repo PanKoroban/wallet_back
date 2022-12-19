@@ -26,8 +26,7 @@ class QueryBuilderBalance
             ->get();
     }
 
-
-    public function update($user, array $date)
+    public function addBalance($user, array $date)
     {
         $balance = $this->model
             ->where('id', '=', Auth::user()->getAuthIdentifier())
@@ -42,5 +41,11 @@ class QueryBuilderBalance
 
         $user->fill($ourSum)->save();
         return $user->fill($ourSum);
+    }
+
+    public function updateBalance($user, array $date)
+    {
+        $user->fill($date)->save();
+        return $user->fill($date);
     }
 }
