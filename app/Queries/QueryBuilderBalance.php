@@ -21,7 +21,6 @@ class QueryBuilderBalance
     public function getBalance($user): Collection|array
     {
         return $this->model
-            ->select('balance')
             ->where('id', '=', $user)
             ->get();
     }

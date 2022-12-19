@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name', 255);
             $table->foreignId('img_id')->constrained('categories_img');
             $table->timestamps();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
         });
         (new CategoriesSeeder())->run();
     }

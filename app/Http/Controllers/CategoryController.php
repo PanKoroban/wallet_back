@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Queries\QueryBuilderCategory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+
 
 class CategoryController extends Controller
 {
@@ -17,7 +19,7 @@ class CategoryController extends Controller
      */
     public function index(QueryBuilderCategory $categories): Collection
     {
-        return $categories->getCategories();
+        return $categories->getCategories(Auth::user()->getAuthIdentifier());
     }
 
     /**
