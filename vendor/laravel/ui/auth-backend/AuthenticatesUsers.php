@@ -116,7 +116,7 @@ trait AuthenticatesUsers
         }
         $user = new \App\Models\User;
         return $request->wantsJson()
-                    ? new JsonResponse([$user->where('email', '=', $request->only('email'))->get()], 200)
+                    ? new JsonResponse([], 204)
                     : redirect()->intended($this->redirectPath());
     }
 
