@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryImgController;
 use App\Http\Controllers\SpendingController;
@@ -23,6 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::apiResource('/balance', BalanceController::class);
+
     Route::apiResource('/category', CategoryController::class);
 
     Route::apiResource('/categoryImg', CategoryImgController::class);
