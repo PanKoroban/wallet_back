@@ -26,22 +26,21 @@ class QueryBuilderBalance
             ->get();
     }
 
-//            self::getBalance(Auth::user()->getAuthIdentifier());
+
     public function update($user, array $date)
     {
-        // БЕЗ ВОТ ЭТОГО ВСЕГО ОБНОВЛЯЕТ ПОЛЕ
-//        $balance = DB::table('users')
-//            ->select('balance')
-//            ->where('id', '=', $user)
-//            ->get();
-//
-//$a = array($balance);
-//
-//
-//        // $a = $b[0] + $date;
-//        dd($a[0]['balance']);
+        $balance = $this->model
+            ->where('id', '=', Auth::user()->getAuthIdentifier())
+            ->get('balance')
+            ->toArray();
 
-        $user->fill($date)->save();
-        return $user->fill($date);
+        $ourBalance = $balance[0]['balance'];
+
+        $sum = $ourBalance + $date['balance'];
+
+        $ourSum['balance'] = $sum;
+
+        $user->fill($ourSum)->save();
+        return $user->fill($ourSum);
     }
 }
