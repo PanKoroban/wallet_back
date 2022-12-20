@@ -81,11 +81,28 @@ final class QueryBuilderSpendings implements QueryBuilder
         return $spending->fill($date);
     }
 
+
+    //вернет true если пытаемся удалить данные другого юзера
+    public function checkSpending($id){
+        $data = Spending::query()
+            ->where('id', '=', $id)
+            ->where('user_id', '=', Auth::user()->getAuthIdentifier())
+            ->get();
+        return $data->isEmpty();
+    }
+
     public function destroySpending($id): JsonResponse
     {
+
+        if(self::checkSpending($id)){
+            return response()->json('Не существует такой траты!', 400);
+        }
+
+/* На будущее разобраться: если удалить этот if то удаляются все категории а не одна :) */
         if ($this->model->find($id) == NULL) {
             return response()->json('Не существует такой траты!', 400);
         }
+
         try {
             $this->model->delete();
             return response()->json(self::getSpending(Auth::user()->getAuthIdentifier()));
@@ -94,5 +111,7 @@ final class QueryBuilderSpendings implements QueryBuilder
             return response()->json('Ошибка при удалении!', 400);
         }
     }
+
+
 
 }
