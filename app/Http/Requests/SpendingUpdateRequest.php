@@ -28,7 +28,7 @@ class SpendingUpdateRequest extends FormRequest
             'category_id' => ['required', 'int', 'exists:categories,id'],
             'sum' => ['required', 'numeric'],
             'created_at' => ['date'],
-            'user_id' => ['required', 'int', 'exists:users,id'],
+//            'user_id' => ['required', 'int', 'exists:users,id'],
         ];
     }
 }

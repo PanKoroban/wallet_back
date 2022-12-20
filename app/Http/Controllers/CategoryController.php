@@ -31,7 +31,10 @@ class CategoryController extends Controller
         QueryBuilderCategory $builder
     ): JsonResponse
     {
-        $builder->create($request->validated());
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
+
+        $builder->create($data);
         return response()->json($builder->getCategories(Auth::user()->getAuthIdentifier()));
     }
 
@@ -47,7 +50,10 @@ class CategoryController extends Controller
         QueryBuilderCategory  $builder
     ): JsonResponse
     {
-        $builder->update($category, $request->validated());
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
+
+        $builder->update($category, $data);
         return response()->json($builder->getCategories(Auth::user()->getAuthIdentifier()));
     }
 

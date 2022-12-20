@@ -31,7 +31,10 @@ class SpendingController extends Controller
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
-        $builder->create($request->validated());
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
+
+        $builder->create($data);
         return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()));
 
     }
@@ -58,8 +61,10 @@ class SpendingController extends Controller
         QueryBuilderSpendings $builder
     ): JsonResponse
     {
-        $builder->update($spending, $request->validated());
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
 
+        $builder->update($spending, $data);
         return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()));
     }
 
