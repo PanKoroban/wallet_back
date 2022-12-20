@@ -4,7 +4,6 @@ use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryImgController;
 use App\Http\Controllers\SpendingController;
-use \App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,18 +24,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth')->group(function () {
 
-    Route::apiResource('/balance', BalanceController::class);
+//    Route::apiResource('/balance', BalanceController::class);
+    Route::post('/balance', [BalanceController::class, 'store']);
 
     Route::apiResource('/category', CategoryController::class);
 
-    Route::apiResource('/categoryImg', CategoryImgController::class);
+//    Route::apiResource('/categoryImg', CategoryImgController::class);
+    Route::get('/categoryImg', [CategoryImgController::class, 'index']);
 
     Route::apiResource('/spending', SpendingController::class);
 
-    Route::controller(SettingController::class)->group(function () {
-        Route::get('/setting', 'index');
-        Route::post('/setting', 'store');
-    });
 });
 
 Auth::routes();

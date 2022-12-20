@@ -21,11 +21,12 @@ final class QueryBuilderSpendings implements QueryBuilder
     /**
      * ВСЕ ТРАТЫ
      */
-    public function getSpending(): Collection
+    public function getSpending($user): Collection
     {
         return Spending::query()
             ->join('categories', 'categories.id', '=', 'spending.category_id')
             ->join('categories_img', 'categories_img.id', '=', 'categories.img_id')
+            ->where('spending.user_id', '=', $user)
             ->select([
                 'spending.id',
                 'spending.name',

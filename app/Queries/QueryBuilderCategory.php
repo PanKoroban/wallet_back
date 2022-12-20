@@ -18,10 +18,12 @@ final class QueryBuilderCategory implements QueryBuilder
         $this->model = Category::query();
     }
 
-    public function getCategories(): Collection|array
+    public function getCategories($user): Collection|array
     {
         return $this->model
             ->with('img')
+            ->where('categories.user_id', '=', $user)
+            ->orderBy('categories.id')
             ->get();
     }
 

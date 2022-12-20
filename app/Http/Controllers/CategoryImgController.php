@@ -18,10 +18,10 @@ class CategoryImgController extends Controller
         return $categoryImg->getCategoryImg();
     }
 
-    public function show($id): Model|Builder
-    {
-        $img = new CategoryImg();
-        return $img->getCategoryImgById($id);
-    }
+//    public function show($id): Model|Builder
+//    {
+//        $img = new CategoryImg();
+//        return $img->getCategoryImgById($id);
+//    }
 
 }
