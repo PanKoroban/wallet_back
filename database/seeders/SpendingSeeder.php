@@ -10,16 +10,14 @@ use Illuminate\Support\Facades\DB;
 class SpendingSeeder extends Seeder
 {
     /**
-     * Сидор: Отправляет Траты в БД
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table('spending')->insert($this->getDate());
     }
 
     /**
-     * Сидор: Faker по созданию Трат: (20-трат)
      * @return array
      */
     private function getDate(): array
@@ -32,7 +30,9 @@ class SpendingSeeder extends Seeder
                 'name' => $faker->jobTitle(),
                 'category_id' => rand(1, 5),
                 'sum'=> $faker->biasedNumberBetween(100, 5000),
-                'created_at' => now()
+                'created_at' => now(),
+                'user_id' => 1,
+
             ];
         }
         return $date;

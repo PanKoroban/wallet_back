@@ -1,55 +1,70 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header" style="background: linear-gradient(to bottom, #e6f9ff, #dbf6ff 100%);">{{ __('Авторизация') }}</div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"
+                         style="background: linear-gradient(to bottom, #e6f9ff, #dbf6ff 100%); text-align: center">
+                        <p style="color: red"> Привет, если ты попал суда тебе надо авторизоваться!</p>
+                        <p><span style="color: red">Login:</span> test@test.ru</p>
+                        <p><span style="color: red">Password:</span> 123</p>
+                        Этот аккаунт создан по умолчанию после команды
+                        <span style="color: red">php artisan migrate:fresh</span>
+                        и только к этому аккаунту относятся по user_id созданные по дефолту категорий и расходы!
+                    </div>
 
-                <div class="card-body" >
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Адрес') }}</label>
+                            <div class="row mb-3">
+                                <label for="email"
+                                       class="col-md-4 col-form-label text-md-end">{{ __('Email Адрес') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <div class="col-md-6">
+                                    <input id="email" type="email"
+                                           class="form-control @error('email') is-invalid @enderror" name="email"
+                                           placeholder="test@test.ru" value="{{ old('email') }}" required
+                                           autocomplete="email" autofocus>
 
-                                @error('email')
+                                    @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Пароль') }}</label>
+                            <div class="row mb-3">
+                                <label for="password"
+                                       class="col-md-4 col-form-label text-md-end">{{ __('Пароль') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <div class="col-md-6">
+                                    <input id="password" type="password"
+                                           class="form-control @error('password') is-invalid @enderror"
+                                           placeholder="123" name="password" required autocomplete="current-password">
 
-                                @error('password')
+                                    @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Вход') }}
-                                </button>
+                            <div class="row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Вход') }}
+                                    </button>
 
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" style="background: linear-gradient(to bottom, #e6f9ff, #dbf6ff 100%);">{{ __('Регистрация') }}</div>
+                <div class="card-header" style="background: linear-gradient(to bottom, #e6f9ff, #dbf6ff 100%);"><p style="color: red">После регистрации у нового пользователя не будет ни каких категории и расходов! Имей ввиду!</p></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">

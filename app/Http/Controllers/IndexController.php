@@ -8,6 +8,7 @@ use App\Queries\QueryBuilderCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -19,8 +20,8 @@ class IndexController extends Controller
     ): Factory|View|Application
     {
         return view('welcome', [
-                'categories' => $categories->getCategories(),
-                'spending' => $spending->getSpending(),
+                'categories' => $categories->getCategories(Auth::user()->getAuthIdentifier()),
+                'spending' => $spending->getSpending(Auth::user()->getAuthIdentifier()),
                 'categoryImg' => $categoryImg->getCategoryImg(),
                 'users' => $user->index()
             ]

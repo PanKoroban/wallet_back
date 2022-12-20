@@ -8,16 +8,14 @@ use Illuminate\Support\Facades\DB;
 class CategoriesImgSeeder extends Seeder
 {
     /**
-     * Сидор: Отправляет Название изображений категории в БД
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table('categories_img')->insert($this->getDate());
     }
 
     /**
-     * Сидор: Faker по созданию Категории: (10-шт)
      * @return array
      */
     private function getDate(): array
