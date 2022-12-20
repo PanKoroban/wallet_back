@@ -32,7 +32,7 @@ class SpendingController extends Controller
     ): JsonResponse
     {
         $builder->create($request->validated());
-        return response()->json($builder->getSpending());
+        return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()));
 
     }
 
@@ -60,7 +60,7 @@ class SpendingController extends Controller
     {
         $builder->update($spending, $request->validated());
 
-        return response()->json($builder->getSpending());
+        return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()));
     }
 
     /**
