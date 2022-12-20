@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryImgController;
 use App\Http\Controllers\SpendingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::apiResource('/user', UserController::class);
 
 //    Route::apiResource('/balance', BalanceController::class);
     Route::post('/balance', [BalanceController::class, 'store']);

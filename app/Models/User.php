@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
         'balance'
@@ -42,4 +44,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * ДЛЯ ВЫВОДА ВСЕХ ПОЛЬЗОВАТЕЛЕЙ НА СТРАНИЦЕ LARAVEL
+     * @return Collection|array
+     */
+    public function getAll(): Collection|array
+    {
+        return User::query()->get();
+    }
 }

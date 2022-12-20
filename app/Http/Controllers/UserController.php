@@ -2,64 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\UsersUpdateRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use App\Queries\QueryBuilderUsers;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
-     * @return Builder[]|Collection
+     * @param QueryBuilderUsers $builder
+     * @return Collection|array
      */
-    public function index(): Collection|array
+    public function index(QueryBuilderUsers $builder): Collection|array
     {
-        return User::query()->get();
+        return $builder->getUser(Auth::user()->getAuthIdentifier());
     }
 
     /**
-     * @return void
+     *
+     * Можно POST запрос будет выглядеть так api/user {...}
+     *
+     * @param QueryBuilderUsers $builder
+     * @param UsersUpdateRequest $request
+     * @return JsonResponse
      */
-    public function create()
+    public function store(
+        QueryBuilderUsers  $builder,
+        UsersUpdateRequest $request
+    ): JsonResponse
     {
-        //
+        $builder->update(Auth::user(), $request->validated());
+        return response()->json($builder->getUser(Auth::user()->getAuthIdentifier()));
     }
 
     /**
-     * @param Request $request
-     * @return void
+     *
+     * Можно PUT запрос будет выглядеть так api/user/1 {...}
+     *
+     * @param QueryBuilderUsers $builder
+     * @param UsersUpdateRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function update(
+        QueryBuilderUsers  $builder,
+        UsersUpdateRequest $request
+    ): JsonResponse
     {
-        //
-    }
-
-    /**
-     * @param $id
-     * @return void
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * @param $id
-     * @return void
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return void
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $builder->update(Auth::user(), $request->validated());
+        return response()->json($builder->getUser(Auth::user()->getAuthIdentifier()));
     }
 
     /**
@@ -68,6 +59,5 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }
