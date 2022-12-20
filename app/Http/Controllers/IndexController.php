@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryImg;
+use App\Models\User;
 use App\Queries\QueryBuilderSpendings;
 use App\Queries\QueryBuilderCategory;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,14 +17,14 @@ class IndexController extends Controller
         QueryBuilderCategory  $categories,
         QueryBuilderSpendings $spending,
         CategoryImg           $categoryImg,
-        UserController        $user
+        User                  $user
     ): Factory|View|Application
     {
         return view('welcome', [
                 'categories' => $categories->getCategories(Auth::user()->getAuthIdentifier()),
                 'spending' => $spending->getSpending(Auth::user()->getAuthIdentifier()),
                 'categoryImg' => $categoryImg->getCategoryImg(),
-                'users' => $user->index()
+                'users' => $user->getAll(),
             ]
         );
     }
