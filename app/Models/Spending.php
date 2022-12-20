@@ -20,7 +20,8 @@ class Spending extends Model
         'category_id',
         'sum',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'user_id',
     ];
 
     /**

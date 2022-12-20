@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Queries;
 
-use App\Http\Requests\BalanceRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
-class QueryBuilderBalance
+final class QueryBuilderBalance implements QueryBuilder
 {
     private Builder $model;
 
@@ -42,9 +42,4 @@ class QueryBuilderBalance
         return $user->fill($ourSum);
     }
 
-    public function updateBalance($user, array $date)
-    {
-        $user->fill($date)->save();
-        return $user->fill($date);
-    }
 }

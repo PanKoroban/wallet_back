@@ -8,6 +8,7 @@ use App\Models\Spending;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 final class QueryBuilderSpendings implements QueryBuilder
 {
@@ -29,6 +30,7 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->where('spending.user_id', '=', $user)
             ->select([
                 'spending.id',
+                'spending.user_id',
                 'spending.name',
                 'spending.category_id',
                 'spending.sum',
@@ -53,6 +55,7 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->join('categories_img', 'categories_img.id', '=', 'categories.img_id')
             ->select([
                 'spending.id',
+                'spending.user_id',
                 'spending.name',
                 'spending.category_id',
                 'spending.sum',
@@ -85,22 +88,11 @@ final class QueryBuilderSpendings implements QueryBuilder
         }
         try {
             $this->model->delete();
-            return response()->json(self::getSpending());
+            return response()->json(self::getSpending(Auth::user()->getAuthIdentifier()));
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json('Ошибка при удалении!', 400);
         }
     }
-
-    // НЕ работает!
-    //    public function getSpendingOLD(): Collection
-    //    {
-    //        return $this->model
-    //            ->with('category')
-    //            ->with('img')
-    //            ->orderBy('created_at', 'desc')
-    //            ->orderBy('id', 'desc')
-    //            ->get();
-    //    }
 
 }

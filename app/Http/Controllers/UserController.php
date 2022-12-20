@@ -2,64 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsersUpdateRequest;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use App\Queries\QueryBuilderUsers;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     /**
-     * @return Builder[]|Collection
+     * @param QueryBuilderUsers $builder
+     * @return Collection|array
      */
-    public function index(): Collection|array
+    public function index(QueryBuilderUsers $builder): Collection|array
     {
-        return User::query()->get();
+        return $builder->getUser(Auth::user()->getAuthIdentifier());
     }
 
     /**
-     * @return void
+     *
+     * Можно PUT запрос будет выглядеть так api/user/1 {...}
+     *
+     * @param QueryBuilderUsers $builder
+     * @param UsersUpdateRequest $request
+     * @param User $user
+     * @return JsonResponse
      */
-    public function create()
+    public function update(
+        QueryBuilderUsers  $builder,
+        UsersUpdateRequest $request,
+        User               $user
+    ): JsonResponse
     {
-        //
-    }
-
-    /**
-     * @param Request $request
-     * @return void
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * @param $id
-     * @return void
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * @param $id
-     * @return void
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return void
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $user = $user->fill($request->validated());
+        $user->fill(['password' => Hash::make($request['password'])])->save();
+        return response()->json($builder->getUser(Auth::user()->getAuthIdentifier()));
     }
 
     /**
@@ -68,6 +47,5 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }
