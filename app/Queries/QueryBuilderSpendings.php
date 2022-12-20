@@ -30,6 +30,7 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->where('spending.user_id', '=', $user)
             ->select([
                 'spending.id',
+                'spending.user_id',
                 'spending.name',
                 'spending.category_id',
                 'spending.sum',
@@ -54,6 +55,7 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->join('categories_img', 'categories_img.id', '=', 'categories.img_id')
             ->select([
                 'spending.id',
+                'spending.user_id',
                 'spending.name',
                 'spending.category_id',
                 'spending.sum',
