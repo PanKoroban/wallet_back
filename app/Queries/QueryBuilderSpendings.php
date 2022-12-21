@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Queries;
 
 use App\Models\Spending;
+use App\Models\User;
+use http\Env\Response;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -70,8 +72,26 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->get();
     }
 
-    public function create(array $date): Spending
+    public function create(array $date): Spending|bool
     {
+        $userBalance = User::query()
+            ->where('id', '=', Auth::user()->getAuthIdentifier())
+            ->get('balance')
+            ->toArray();
+
+        $balance = $userBalance[0]['balance'];
+        $minus = $date['sum'];
+        $equation = $balance - $minus;
+        $total['balance'] = $equation;
+
+        if ($balance < $minus) {
+            return false;
+        }
+
+        User::query()->select('balance')
+            ->where('id', '=', Auth::user()->getAuthIdentifier())
+            ->update($total);
+
         return Spending::create($date);
     }
 
@@ -83,7 +103,8 @@ final class QueryBuilderSpendings implements QueryBuilder
 
 
     //вернет true если пытаемся удалить данные другого юзера
-    public function checkSpending($id){
+    public function checkSpending($id)
+    {
         $data = Spending::query()
             ->where('id', '=', $id)
             ->where('user_id', '=', Auth::user()->getAuthIdentifier())
@@ -94,11 +115,11 @@ final class QueryBuilderSpendings implements QueryBuilder
     public function destroySpending($id): JsonResponse
     {
 
-        if(self::checkSpending($id)){
+        if (self::checkSpending($id)) {
             return response()->json('Не существует такой траты!', 400);
         }
 
-/* На будущее разобраться: если удалить этот if то удаляются все категории а не одна :) */
+        /* На будущее разобраться: если удалить этот if то удаляются все категории а не одна :) */
         if ($this->model->find($id) == NULL) {
             return response()->json('Не существует такой траты!', 400);
         }
@@ -111,7 +132,6 @@ final class QueryBuilderSpendings implements QueryBuilder
             return response()->json('Ошибка при удалении!', 400);
         }
     }
-
 
 
 }
