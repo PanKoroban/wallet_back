@@ -35,9 +35,8 @@ class SpendingController extends Controller
         $data['user_id'] = Auth::user()->getAuthIdentifier();
 
         if ($builder->create($data) === false) {
-            return response()->json('Недостаточно средств!');
+            return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()), '400');
         }
-
         return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()));
 
     }
