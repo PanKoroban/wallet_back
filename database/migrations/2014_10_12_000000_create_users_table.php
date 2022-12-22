@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->double('balance', 8, 2)->nullable();
+            $table->double('balance', 8, 2)->nullable()->default(0);
             $table->string('name');
             $table->string('surname')->nullable();
             $table->string('email')->unique()->nullable();
