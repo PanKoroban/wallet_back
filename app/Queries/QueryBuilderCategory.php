@@ -67,7 +67,11 @@ final class QueryBuilderCategory implements QueryBuilder
         try {
             $this->model->delete();
             $category = new Category;
-            return response()->json($category->with('img')->get());
+            return response()->json($category
+                ->with('img')
+                ->where('categories.user_id', '=', Auth::user()->getAuthIdentifier())
+                ->orderBy('categories.id', 'desc')
+                ->get());
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json('Категория используется и не может быть удалена!', 400);
