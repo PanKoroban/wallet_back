@@ -33,13 +33,14 @@ final class QueryBuilderBalance implements QueryBuilder
             ->toArray();
 
         $ourBalance = $balance[0]['balance'];
-
         $sum = $ourBalance + $date['balance'];
 
-        $ourSum['balance'] = $sum;
+        if ($sum <= 999999) {
+            $ourSum['balance'] = $sum;
 
-        $user->fill($ourSum)->save();
-        return $user->fill($ourSum);
+            $user->fill($ourSum)->save();
+            return $user->fill($ourSum);
+        }
+        return false;
     }
-
 }
