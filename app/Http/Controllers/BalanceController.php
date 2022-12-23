@@ -12,14 +12,18 @@ class BalanceController extends Controller
     /**
      * @param BalanceRequest $request
      * @param QueryBuilderBalance $builder
-     * @return JsonResponse
+     * @return JsonResponse|string
      */
     public function store(
         BalanceRequest      $request,
         QueryBuilderBalance $builder
-    ): JsonResponse
+    ): JsonResponse|string
     {
-        $builder->addBalance(Auth::user(), $request->validated());
+        if ($builder->addBalance(Auth::user(), $request->validated()) === false) {
+            return response()->json(["Сумма баланса не должно превышать 999 999",
+                $builder->getBalance(Auth::user()->getAuthIdentifier())
+            ]);
+        }
         return response()->json($builder->getBalance(Auth::user()->getAuthIdentifier()));
     }
 
