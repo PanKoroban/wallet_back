@@ -25,6 +25,7 @@ final class QueryBuilderCategory implements QueryBuilder
         return $this->model
             ->with('img')
             ->where('categories.user_id', '=', $user)
+            ->orWhere('categories.is_default', '=',true)
             ->orderBy('categories.id', 'desc')
             ->get();
     }

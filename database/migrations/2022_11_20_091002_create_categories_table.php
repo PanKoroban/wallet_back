@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->boolean('is_default')->default(false);
         });
         (new CategoriesSeeder())->run();
     }
