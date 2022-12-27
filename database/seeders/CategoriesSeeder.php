@@ -27,30 +27,35 @@ class CategoriesSeeder extends Seeder
                 'img_id' => 1,
                 'created_at' => now(),
                 'user_id' => 1,
+                'is_default' => 1,
             ],
             [
                 'name' => 'ЖКХ, связь, интернет',
                 'img_id' => 2,
                 'created_at' => now(),
                 'user_id' => 1,
+                'is_default' => 1,
             ],
             [
                 'name' => 'Пополнение',
                 'img_id' => 3,
                 'created_at' => now(),
                 'user_id' => 1,
+                'is_default' => 1,
             ],
             [
                 'name' => 'Образование',
                 'img_id' => 4,
                 'created_at' => now(),
                 'user_id' => 1,
+                'is_default' => 1,
             ],
             [
                 'name' => 'Медицина',
                 'img_id' => 5,
                 'created_at' => now(),
                 'user_id' => 1,
+                'is_default' => 1,
             ],
         ];
     }
