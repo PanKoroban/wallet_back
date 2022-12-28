@@ -6,12 +6,10 @@ namespace App\Queries;
 
 use App\Models\Spending;
 use App\Models\User;
-use http\Env\Response;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use function Symfony\Component\Translation\t;
 
 final class QueryBuilderSpendings implements QueryBuilder
 {
@@ -119,7 +117,7 @@ final class QueryBuilderSpendings implements QueryBuilder
         $findIdInFill = $spending->fill($date);
         $id = $findIdInFill['id'];
         $selected = $this->model                    // <- Это все, чтобы взять струю сумму траты!
-            ->select('sum')
+        ->select('sum')
             ->where('id', '=', $id)
             ->get()
             ->toArray();
@@ -160,7 +158,6 @@ final class QueryBuilderSpendings implements QueryBuilder
 
     public function destroySpending($id): JsonResponse
     {
-
         if (self::checkSpending($id)) {
             return response()->json('Не существует такой траты!', 400);
         }
@@ -171,6 +168,16 @@ final class QueryBuilderSpendings implements QueryBuilder
         }
 
         try {
+            $selected = $this->model
+                ->select('sum')
+                ->where('id', '=', $id)             // <- Это все, чтобы взять удаляющеюся сумму траты!
+                ->get()
+                ->toArray();
+            $plus = $selected[0]['sum'];
+
+            $total['balance'] = $this->getBalanceUser() + $plus;    // Плюсуем +++
+            $this->updateBalanceBackend($total);                    // Сохраняем в БД
+
             $this->model->delete();
             return response()->json(self::getSpending(Auth::user()->getAuthIdentifier()));
         } catch (\Exception $e) {
