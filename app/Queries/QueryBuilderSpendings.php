@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use function Symfony\Component\Translation\t;
 
 final class QueryBuilderSpendings implements QueryBuilder
 {
@@ -72,14 +73,34 @@ final class QueryBuilderSpendings implements QueryBuilder
             ->get();
     }
 
-    public function create(array $date): Spending|bool
+    /**
+     * Возвращает баланс авторизованного пользователя! PRIVATE
+     * @return float
+     */
+    private function getBalanceUser(): float
     {
         $userBalance = User::query()
             ->where('id', '=', Auth::user()->getAuthIdentifier())
             ->get('balance')
             ->toArray();
+        return $userBalance[0]['balance'];
+    }
 
-        $balance = $userBalance[0]['balance'];
+    /**
+     * Обновляет баланс авторизованного пользователя! PRIVATE
+     * @param $array
+     * @return void
+     */
+    private function updateBalanceBackend($array)
+    {
+        User::query()->select('balance')
+            ->where('id', '=', Auth::user()->getAuthIdentifier())
+            ->update($array);
+    }
+
+    public function create(array $date): Spending|bool
+    {
+        $balance = $this->getBalanceUser();
         $minus = $date['sum'];
         $equation = $balance - $minus;
         $total['balance'] = $equation;
@@ -88,15 +109,40 @@ final class QueryBuilderSpendings implements QueryBuilder
             return false;
         }
 
-        User::query()->select('balance')
-            ->where('id', '=', Auth::user()->getAuthIdentifier())
-            ->update($total);
+        $this->updateBalanceBackend($total);
 
         return Spending::create($date);
     }
 
-    public function update(Spending $spending, array $date): Spending
+    public function update(Spending $spending, array $date): Spending|bool
     {
+        $findIdInFill = $spending->fill($date);
+        $id = $findIdInFill['id'];
+        $selected = $this->model                    // <- Это все, чтобы взять струю сумму траты!
+            ->select('sum')
+            ->where('id', '=', $id)
+            ->get()
+            ->toArray();
+
+        $old = $selected[0]['sum'];                 // Сумма который была в БД
+        $new = $date['sum'];                        // Новая сумма
+
+        if ($this->getBalanceUser() < $new) {       // Ошибка если введенная сумма больше чем баланс!
+            return false;
+        }
+
+        if ($old < $new) {                          // Проверка. Если старая сумма меньше
+            $result1 = $new - $old;                 // Находим разницу
+            $total['balance'] = $this->getBalanceUser() - $result1;
+            $this->updateBalanceBackend($total);    // Минусуем разницу и сохраняем в БД
+        }
+
+        if ($old > $new) {                          // Проверка. Если старая сумма больше
+            $result2 = $old - $new;                 // Находим разницу
+            $total['balance'] = $this->getBalanceUser() + $result2;
+            $this->updateBalanceBackend($total);    // Плюсуем разницу и сохраняем в БД
+        }
+
         $spending->fill($date)->save();
         return $spending->fill($date);
     }
