@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Spending extends Model
 {
@@ -14,10 +16,31 @@ class Spending extends Model
      */
     protected $table = 'spending';
     protected $fillable = [
+        'name',
         'category_id',
         'sum',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'user_id',
     ];
 
+    /**
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function img(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            CategoryImg::class,
+            Category::class,
+            'img_id',
+            'id',
+            'category_id',
+            'img_id',
+        );
+    }
 }

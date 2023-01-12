@@ -9,30 +9,54 @@ use Illuminate\Support\Facades\DB;
 class CategoriesSeeder extends Seeder
 {
     /**
-     * Сидор: Отправляет Категории в БД
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table('categories')->insert($this->getDate());
     }
 
     /**
-     * Сидор: Faker по созданию Категории: (10-шт)
      * @return array
      */
     private function getDate(): array
     {
-        $faker = Factory::create('ru_RU');
-        $date = [];
-
-        for ($i = 0; $i < 10; $i++) {
-            $date[] = [
-                'name' => $faker->jobTitle(),
-                'created_at' => now('Europe/Moscow'),
-                'img_name' => 'house.svg'
-            ];
-        }
-        return $date;
+        return $date[] = [
+            [
+                'name' => 'Одежда',
+                'img_id' => 1,
+                'created_at' => now(),
+                'user_id' => 1,
+                'is_default' => 1,
+            ],
+            [
+                'name' => 'ЖКХ, связь, интернет',
+                'img_id' => 2,
+                'created_at' => now(),
+                'user_id' => 1,
+                'is_default' => 1,
+            ],
+            [
+                'name' => 'Пополнение',
+                'img_id' => 3,
+                'created_at' => now(),
+                'user_id' => 1,
+                'is_default' => 1,
+            ],
+            [
+                'name' => 'Образование',
+                'img_id' => 4,
+                'created_at' => now(),
+                'user_id' => 1,
+                'is_default' => 1,
+            ],
+            [
+                'name' => 'Медицина',
+                'img_id' => 5,
+                'created_at' => now(),
+                'user_id' => 1,
+                'is_default' => 1,
+            ],
+        ];
     }
 }

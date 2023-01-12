@@ -2,92 +2,88 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SpendingStoreRequest;
+use App\Http\Requests\SpendingUpdateRequest;
 use App\Models\Spending;
 use App\Queries\QueryBuilderSpendings;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SpendingController extends Controller
 {
     /**
      * @param QueryBuilderSpendings $spending
-     * @return array|Collection
+     * @return Collection
      */
-    public function index(QueryBuilderSpendings $spending): array|Collection
+    public function index(QueryBuilderSpendings $spending): Collection
     {
-        return $spending->getSpendingWithCategoryName();
+        return $spending->getSpending(Auth::user()->getAuthIdentifier());
     }
 
     /**
-     * @return void
-     */
-    public function create()
-    {
-    }
-
-    /**
-     * @param Request $request
+     * @param SpendingStoreRequest $request
+     * @param QueryBuilderSpendings $builder
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(
+        SpendingStoreRequest  $request,
+        QueryBuilderSpendings $builder
+    ): JsonResponse
     {
-        if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['category_id', 'sum', 'created_at']);
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
+
+        if ($builder->create($data) === false) {
+            return response()->json([
+                "Недостаточно средств",
+                $builder->getSpending(Auth::user()->getAuthIdentifier())
+            ], '200');
         }
-        $spending = new Spending($validated);
-        if ($spending->save()) {
-            return response()->json($validated);
-        } else {
-            return response()->json('error', 400);
-        }
+        return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()));
     }
 
     /**
+     * @param QueryBuilderSpendings $builder
      * @param $id
-     * @return void
+     * @return Collection
      */
-    public function show($id)
+    public function show(QueryBuilderSpendings $builder, $id): Collection
     {
+        return $builder->getSpendingByCategory($id);
     }
 
     /**
+     * @param SpendingUpdateRequest $request
+     * @param Spending $spending
+     * @param QueryBuilderSpendings $builder
+     * @return JsonResponse
+     */
+    public function update(
+        SpendingUpdateRequest $request,
+        Spending              $spending,
+        QueryBuilderSpendings $builder
+    ): JsonResponse
+    {
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
+
+        if ($builder->update($spending, $data) === false) {
+            return response()->json([
+                "Недостаточно средств чтобы обновить!",
+                $builder->getSpending(Auth::user()->getAuthIdentifier())
+            ], '200');
+        }
+        return response()->json($builder->getSpending(Auth::user()->getAuthIdentifier()));
+    }
+
+    /**
+     * @param QueryBuilderSpendings $spending
      * @param $id
-     * @return void
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * @param Request $request
-     * @param Spending $spending
      * @return JsonResponse
      */
-    public function update(Request $request, Spending $spending): JsonResponse
+    public function destroy(QueryBuilderSpendings $spending, $id): JsonResponse
     {
-        if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['category_id', 'sum', 'updated_at']);
-        }
-        $spending = $spending->fill($validated);
-        if ($spending->save()) {
-            return response()->json($validated);
-        } else {
-            return response()->json('error', 400);
-        }
-    }
-
-    /**
-     * @param Spending $spending
-     * @return JsonResponse
-     */
-    public function destroy(Spending $spending): JsonResponse
-    {
-        try {
-            $spending->delete();
-            return response()->json('success');
-        } catch(\Exception){
-            return response()->json('error', 400);
-        }
+        return $spending->destroySpending($id);
     }
 }

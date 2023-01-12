@@ -2,90 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use App\Queries\QueryBuilderCategory;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param QueryBuilderCategory $categories
+     * @return Collection
      */
-    public function index(QueryBuilderCategory $categories)
+    public function index(QueryBuilderCategory $categories): Collection
     {
-         return $categories->getCategories();
+        return $categories->getCategories(Auth::user()->getAuthIdentifier());
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CategoryStoreRequest $request
+     * @param QueryBuilderCategory $builder
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(
+        CategoryStoreRequest $request,
+        QueryBuilderCategory $builder
+    ): JsonResponse
     {
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
 
-        if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['name', 'img_name']);
-       }
-        $category = new Category($validated);
-        if ($category->save()){
-            return response()->json($validated);
-        } else {
-            return response()->json('error', 400);
-        }
-
+        $builder->create($data);
+        return response()->json($builder->getCategories(Auth::user()->getAuthIdentifier()));
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CategoryUpdateRequest $request
+     * @param Category $category
+     * @param QueryBuilderCategory $builder
+     * @return JsonResponse
      */
-    public function show($id)
+    public function update(
+        CategoryUpdateRequest $request,
+        Category              $category,
+        QueryBuilderCategory  $builder
+    ): JsonResponse
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = Auth::user()->getAuthIdentifier();
+
+        $builder->update($category, $data);
+        return response()->json($builder->getCategories(Auth::user()->getAuthIdentifier()));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param QueryBuilderCategory $categories
+     * @param $id
+     * @return JsonResponse
      */
-    public function update(Request $request, Category $category)
+    public function destroy(QueryBuilderCategory $categories, $id): JsonResponse
     {
-        if ($request->accepts(['text/html', 'application/json'])) {
-            $validated = $request->only(['name', 'img_name']);
-        }
-
-        $category = $category->fill($validated);
-        if($category->save()){
-            return response()->json($validated);;
-        }
-
-        return response()->json('error', 400);;
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Category $category)
-    {
-        try {
-            $category->delete();
-            return response()->json('ok');
-        } catch(\Exception $e){
-            \Log::error($e->getMessage());
-            return response()->json('error', 400);
-        }
+        return $categories->destroyCategory($id);
     }
 }
